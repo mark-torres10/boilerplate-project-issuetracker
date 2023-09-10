@@ -11,7 +11,7 @@ console.log("connected!!");
 
 
 /* MongoDB access functions */
-const createNewIssue = async ({ issue_title, issue_text, created_by, assigned_to="", status_text=""}) => {
+const createNewIssue = async ({ issue_title, issue_text, created_by, assigned_to="", status_text="" }) => {
   const currentTimestampIsoString = getCurrentTimestampAsIsoString();
 
   const newIssue = new Issue({
@@ -28,4 +28,3 @@ const createNewIssue = async ({ issue_title, issue_text, created_by, assigned_to
   await newIssue.save();
   return newIssue;
 }
-
