@@ -1,0 +1,1 @@
+/* Manages direct access to MongoDB database */
