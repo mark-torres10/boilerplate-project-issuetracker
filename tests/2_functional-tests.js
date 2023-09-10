@@ -15,7 +15,7 @@ suite('Functional Tests', function() {
   const MOCK_STATUS_TEXT = "In Progress";
   const DEFAULT_STATUS_TEXT = "";
   
-  suite("Testing PUT requests", () => {
+  suite("Testing POST requests", () => {
     test("Create an issue with every field: POST request to /api/issues/{project}", (done) => {
       chai
         .request(server)
