@@ -45,7 +45,7 @@ const updateIssue = async({ _id, updates }) => {
 
 const getIssues = async({ filters={} }) => {
   let issuesToGet = await Issue.find(filters);
-  return issueToGet;
+  return issuesToGet;
 }
 
 const deleteIssue = async({ _id }) => {

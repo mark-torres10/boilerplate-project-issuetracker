@@ -14,7 +14,7 @@ module.exports = (app) => {
 
     //  You can send a GET request to /api/issues/{projectname} for an array of all issues for that specific projectname, with all the fields present for each issue.
     // You can send a GET request to /api/issues/{projectname} and filter the request by also passing along any field and value as a URL query (ie. /api/issues/{project}?open=false). You can pass one or more field/value pairs at once.
-    .get(function(req, res) {
+    .get(async (req, res) => {
       let project = req.params.project;
       const queryParams = req.query;
       const filters = {};
@@ -23,12 +23,13 @@ module.exports = (app) => {
           filters[key] = queryParams[key];
         }
       }
-
+      console.log(`queryParams: ${queryParams}`);
       try {
         const issuesToReturn = await getIssues({ filters });
         return res.json(issuesToReturn);
       } catch(err) {
-        res.json({ error: `Error in fetching issues: ${err}`});
+        console.log(`err: ${err}`);
+        return res.json({ error: `Error in fetching issues: ${err}`});
       }
     })
 
@@ -97,7 +98,7 @@ module.exports = (app) => {
       try {
         await deleteIssue({ _id });
         return res.json({ result: "successfully deleted", _id: _id });
-      } except(err) {
+      } catch(err) {
         return res.json({ error: "could not delete", _id: _id });
       }
     });

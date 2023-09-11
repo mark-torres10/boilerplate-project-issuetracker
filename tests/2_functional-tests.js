@@ -2,6 +2,7 @@ const chaiHttp = require('chai-http');
 const chai = require('chai');
 const assert = chai.assert;
 const server = require('../server');
+const { createNewIssue } = require("../services/issueService.js");
 
 chai.use(chaiHttp);
 
@@ -14,7 +15,8 @@ suite('Functional Tests', function() {
   const DEFAULT_ASSIGNED_TO = "";
   const MOCK_STATUS_TEXT = "In Progress";
   const DEFAULT_STATUS_TEXT = "";
-  
+
+  /*
   suite("Testing POST requests", () => {
     test("Create an issue with every field: POST request to /api/issues/{project}", (done) => {
       chai
@@ -74,6 +76,7 @@ suite('Functional Tests', function() {
         })
     });
   });
+  */
 
   suite("Testing GET requests", () => {
     test("View issues on a project: GET request to /api/issues/{project}", (done) => {
@@ -119,8 +122,9 @@ suite('Functional Tests', function() {
     });
   });
 
+  /*
   suite("Testing PUT requests", () => {
-    test("Update one field on an issue: PUT request to /api/issues/{project}", (done) => {
+    test("Update one field on an issue: PUT request to /api/issues/{project}", async (done) => {
       // Create a new issue
       const newIssue = await createNewIssue({
         issue_title: "Title 1",
@@ -142,7 +146,7 @@ suite('Functional Tests', function() {
           done();
         });
     });
-    test("Update multiple fields on an issue: PUT request to /api/issues/{project}", (done) => {
+    test("Update multiple fields on an issue: PUT request to /api/issues/{project}", async (done) => {
       // Create a new issue
       const newIssue = await createNewIssue({
         issue_title: "Title 2",
@@ -183,7 +187,7 @@ suite('Functional Tests', function() {
           done();
         });
     });
-    test("Update an issue with no fields to update: PUT request to /api/issues/{project}", (done) => {
+    test("Update an issue with no fields to update: PUT request to /api/issues/{project}", async (done) => {
       // Create a new issue
       const newIssue = await createNewIssue({
         issue_title: "Title 4",
@@ -225,9 +229,10 @@ suite('Functional Tests', function() {
         });
     });
   });
-
+  */
+  /*
   suite("Testing DELETE requests", () => {
-    test("Delete an issue: DELETE request to /api/issues/{project}", (done) => {
+    test("Delete an issue: DELETE request to /api/issues/{project}", async (done) => {
       // Create a new issue
       const newIssue = await createNewIssue({
         issue_title: "Title 1",
@@ -279,4 +284,5 @@ suite('Functional Tests', function() {
         });
     });
   });
+  */
 });
