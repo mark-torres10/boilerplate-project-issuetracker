@@ -14,7 +14,7 @@ suite('Functional Tests', function() {
   const DEFAULT_ASSIGNED_TO = "";
   const MOCK_STATUS_TEXT = "In Progress";
   const DEFAULT_STATUS_TEXT = "";
-  
+
   suite("Testing POST requests", () => {
     test("Create an issue with every field: POST request to /api/issues/{project}", (done) => {
       chai
@@ -70,6 +70,7 @@ suite('Functional Tests', function() {
           assert.equal(res.status, 200); // TODO: should this return 200? Or a 40x?
           assert.property(res.body, "error");
           assert.equal(res.body.error, "required field(s) missing.");
+          done();
         })
     });
   });
