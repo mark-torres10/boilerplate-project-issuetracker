@@ -59,4 +59,4 @@ const deleteIssue = async({ _id }) => {
   }
 }
 
-module.exports = { createNewIssue, deleteIssue, updateIssue }
+module.exports = { createNewIssue, deleteIssue, getIssues, updateIssue }
