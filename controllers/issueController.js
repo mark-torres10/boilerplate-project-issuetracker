@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 
-const { createNewIssue } = require("../services/issueService.js");
+const { createNewIssue, updateIssue } = require("../services/issueService.js");
 
 const app = express();
 app.use(bodyParser.json());
@@ -64,7 +64,7 @@ module.exports = (app) => {
       }
 
       try {
-        await 
+        await updateIssue({ _id, updates });
       } catch (err) {
         return res.json({ error: "could not update", _id: _id });
       }

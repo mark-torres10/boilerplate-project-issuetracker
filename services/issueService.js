@@ -29,4 +29,18 @@ const createNewIssue = async ({ issue_title, issue_text, created_by, assigned_to
   return newIssue;
 }
 
-module.exports = { createNewIssue }
+const updateIssue = async({ _id, updates }) => {
+  try {
+    let updatedIssue = await Issue.findOneAndUpdate({ _id: _id }, updates, { new: true });
+  
+    if(!updatedIssue){
+      console.error(`Cannot find issue with _id=${_id}`);
+    }
+  
+    await updatedIssue.save();
+  } catch(err) {
+    console.err(`Problem with updating record for issue with _id=${_id}`);
+  }
+}
+
+module.exports = { createNewIssue, updateIssue }
