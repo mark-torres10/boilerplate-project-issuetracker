@@ -16,7 +16,6 @@ suite('Functional Tests', function() {
   const MOCK_STATUS_TEXT = "In Progress";
   const DEFAULT_STATUS_TEXT = "";
 
-  /*
   suite("Testing POST requests", () => {
     test("Create an issue with every field: POST request to /api/issues/{project}", (done) => {
       chai
@@ -76,8 +75,6 @@ suite('Functional Tests', function() {
         })
     });
   });
-  */
-
   suite("Testing GET requests", () => {
     test("View issues on a project: GET request to /api/issues/{project}", (done) => {
     chai
@@ -121,57 +118,73 @@ suite('Functional Tests', function() {
       });
     });
   });
-
-  /*
   suite("Testing PUT requests", () => {
-    test("Update one field on an issue: PUT request to /api/issues/{project}", async (done) => {
-      // Create a new issue
-      const newIssue = await createNewIssue({
-        issue_title: "Title 1",
-        issue_text: "Text 1",
-        created_by: "User 1",
-      });
-      // Update one field (issue_text) on the issue
+    test("Update one field on an issue: PUT request to /api/issues/{project}", (done) => {
       chai
         .request(server)
-        .put("/api/issues/mock-project")
+        .keepOpen()
+        .post("/api/issues/mock-project")
         .send({
-          _id: newIssue._id,
-          issue_text: "Updated Text 1",
+          issue_title: "Title 1",
+          issue_text: "Text 1",
+          created_by: "User 1",
         })
         .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.equal(res.body.result, "successfully updated");
-          assert.equal(res.body._id, newIssue._id);
+          if (err) {
+            done(err);
+          } else {
+            const newId = res.body._id;
+            chai
+              .request(server)
+              .put("/api/issues/mock-project")
+              .send({
+                _id: newId,
+                issue_text: "Updated Text 1",
+              })
+              .end((err, res) => {
+                assert.equal(res.status, 200);
+                assert.equal(res.body.result, "successfully updated");
+                assert.equal(res.body._id, newId);
+                done();
+              });
+          }
           done();
         });
     });
-    test("Update multiple fields on an issue: PUT request to /api/issues/{project}", async (done) => {
-      // Create a new issue
-      const newIssue = await createNewIssue({
-        issue_title: "Title 2",
-        issue_text: "Text 2",
-        created_by: "User 2",
-      });
-  
-      // Update multiple fields (issue_title and issue_text) on the issue
+    test("Update multiple fields on an issue: PUT request to /api/issues/{project}", (done) => {
       chai
         .request(server)
-        .put("/api/issues/mock-project")
+        .keepOpen()
+        .post("/api/issues/mock-project")
         .send({
-          _id: newIssue._id,
-          issue_title: "Updated Title 2",
-          issue_text: "Updated Text 2",
+          issue_title: "Title 2",
+          issue_text: "Text 2",
+          created_by: "User 2"
         })
         .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.equal(res.body.result, "successfully updated");
-          assert.equal(res.body._id, newIssue._id);
+          if (err) {
+            done(err);
+          } else {
+            const newId = res.body._id;
+            chai
+              .request(server)
+              .put("/api/issues/mock-project")
+              .send({
+                _id: newId,
+                issue_title: "Updated Title 2",
+                issue_text: "Updated Text 2"
+              })
+              .end((err, res) => {
+                assert.equal(res.status, 200);
+                assert.equal(res.body.result, "successfully updated");
+                assert.equal(res.body._id, newId);
+                done();
+              });
+          }
           done();
         });
-      });
+    });
     test("Update an issue with missing _id: PUT request to /api/issues/{project}", (done) => {
-      // Attempt to update an issue without providing an _id
       chai
         .request(server)
         .put("/api/issues/mock-project")
@@ -187,26 +200,34 @@ suite('Functional Tests', function() {
           done();
         });
     });
-    test("Update an issue with no fields to update: PUT request to /api/issues/{project}", async (done) => {
-      // Create a new issue
-      const newIssue = await createNewIssue({
-        issue_title: "Title 4",
-        issue_text: "Text 4",
-        created_by: "User 4",
-      });
-  
-      // Attempt to update an issue without providing any fields to update
+    test("Update an issue with no fields to update: PUT request to /api/issues/{project}", (done) => {
       chai
         .request(server)
-        .put("/api/issues/mock-project")
+        .keepOpen()
+        .post("/api/issues/mock-project")
         .send({
-          _id: newIssue._id,
+          issue_title: "Title 4",
+          issue_text: "Text 4",
+          created_by: "User 4"
         })
         .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.property(res.body, "error");
-          assert.equal(res.body.error, "no update field(s) sent");
-          assert.equal(res.body._id, newIssue._id);
+          if (err) {
+            done(err);
+          } else {
+            const newId = res.body._id;
+            chai
+              .request(server)
+              .put("/api/issues/mock-project")
+              .send({
+                _id: newId
+              })
+              .end((err, res) => {
+                assert.equal(res.status, 200);
+                assert.property(res.body, "error");
+                assert.equal(res.body.error, "no update field(s) sent");
+                assert.equal(res.body._id, newId);
+              });
+          }
           done();
         });
     });
@@ -229,33 +250,36 @@ suite('Functional Tests', function() {
         });
     });
   });
-  */
-  /*
   suite("Testing DELETE requests", () => {
-    test("Delete an issue: DELETE request to /api/issues/{project}", async (done) => {
-      // Create a new issue
-      const newIssue = await createNewIssue({
-        issue_title: "Title 1",
-        issue_text: "Text 1",
-        created_by: "User 1",
-      });
-  
-      // Delete the created issue
+    test("Delete an issue: DELETE request to /api/issues/{project}", (done) => {
       chai
         .request(server)
-        .delete("/api/issues/mock-project")
+        .post("/api/issues/mock-project")
         .send({
-          _id: newIssue._id,
+          issue_title: "Issue to delete",
+          issue_text: "Issue to delete",
+          created_by: "User 1",
         })
         .end((err, res) => {
-          assert.equal(res.status, 200);
-          assert.equal(res.body.result, "successfully deleted");
-          assert.equal(res.body._id, newIssue._id);
+          if (err) {
+            done(err);
+          } else {
+            const newId = res.body._id;
+            chai
+              .request(server)
+              .delete("/api/issues/mock-project")
+              .send({ _id: newId })
+              .end((err, res) => {
+                assert.equal(res.status, 200);
+                assert.property(res.body, "result");
+                assert.equal(res.body.result, "successfully deleted");
+                assert.equal(res.body._id, newId);
+              });
+          }
           done();
         });
     });
     test("Delete an issue with an invalid _id: DELETE request to /api/issues/{project}", (done) => {
-      // Attempt to delete an issue with an invalid _id
       chai
         .request(server)
         .delete("/api/issues/mock-project")
@@ -271,7 +295,6 @@ suite('Functional Tests', function() {
         });
     });
     test("Delete an issue with missing _id: DELETE request to /api/issues/{project}", (done) => {
-      // Attempt to delete an issue without providing an _id
       chai
         .request(server)
         .delete("/api/issues/mock-project")
@@ -284,5 +307,4 @@ suite('Functional Tests', function() {
         });
     });
   });
-  */
 });
