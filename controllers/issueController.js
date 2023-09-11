@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 
-const { createNewIssue, deleteIssue, updateIssue } = require("../services/issueService.js");
+const { createNewIssue, deleteIssue, getIssues, updateIssue } = require("../services/issueService.js");
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,7 +16,20 @@ module.exports = (app) => {
     // You can send a GET request to /api/issues/{projectname} and filter the request by also passing along any field and value as a URL query (ie. /api/issues/{project}?open=false). You can pass one or more field/value pairs at once.
     .get(function(req, res) {
       let project = req.params.project;
+      const queryParams = req.query;
+      const filters = {};
+      for (const key in queryParams) {
+        if (queryParams.hasOwnProperty(key)) {
+          filters[key] = queryParams[key];
+        }
+      }
 
+      try {
+        const issuesToReturn = await getIssues({ filters });
+        return res.json(issuesToReturn);
+      } catch(err) {
+        res.json({ error: `Error in fetching issues: ${err}`});
+      }
     })
 
     // [DONE] You can send a POST request to /api/issues/{projectname} with form data containing the required fields issue_title, issue_text, created_by, and optionally assigned_to and status_text.
