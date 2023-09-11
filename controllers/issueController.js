@@ -61,7 +61,7 @@ module.exports = (app) => {
     // You can send a PUT request to /api/issues/{projectname} with an _id and one or more fields to update. On success, the updated_on field should be updated, and returned should be {  result: 'successfully updated', '_id': _id }.
     // When the PUT request sent to /api/issues/{projectname} does not include an _id, the return value is { error: 'missing _id' }.
     // When the PUT request sent to /api/issues/{projectname} does not include update fields, the return value is { error: 'no update field(s) sent', '_id': _id }. On any other error, the return value is { error: 'could not update', '_id': _id }.
-    .put(function(req, res) {
+    .put(async (req, res) => {
       let project = req.params.project;
       const _id = req.body._id;
       const updates = req.body;
@@ -85,7 +85,7 @@ module.exports = (app) => {
     })
 
     // You can send a DELETE request to /api/issues/{projectname} with an _id to delete an issue. If no _id is sent, the return value is { error: 'missing _id' }. On success, the return value is { result: 'successfully deleted', '_id': _id }. On failure, the return value is { error: 'could not delete', '_id': _id }.
-    .delete(function(req, res) {
+    .delete(async (req, res) => {
       let project = req.params.project;
       const _id = req.body._id;
 
