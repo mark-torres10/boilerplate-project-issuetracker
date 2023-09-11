@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 
-const { createNewIssue, updateIssue } = require("../services/issueService.js");
+const { createNewIssue, deleteIssue, updateIssue } = require("../services/issueService.js");
 
 const app = express();
 app.use(bodyParser.json());
@@ -74,6 +74,18 @@ module.exports = (app) => {
     // You can send a DELETE request to /api/issues/{projectname} with an _id to delete an issue. If no _id is sent, the return value is { error: 'missing _id' }. On success, the return value is { result: 'successfully deleted', '_id': _id }. On failure, the return value is { error: 'could not delete', '_id': _id }.
     .delete(function(req, res) {
       let project = req.params.project;
+      const _id = req.body._id;
 
+      // if ID not provided, return missing response
+      if (!_id) {
+        return res.json({ error: "missing _id" });
+      }
+
+      try {
+        await deleteIssue({ _id });
+        return res.json({ result: "successfully deleted", _id: _id });
+      } except(err) {
+        return res.json({ error: "could not delete", _id: _id });
+      }
     });
 }

@@ -31,16 +31,27 @@ const createNewIssue = async ({ issue_title, issue_text, created_by, assigned_to
 
 const updateIssue = async({ _id, updates }) => {
   try {
-    let updatedIssue = await Issue.findOneAndUpdate({ _id: _id }, updates, { new: true });
+    let updatedIssue = await Issue.findOneAndUpdate({ _id }, updates, { new: true });
   
     if(!updatedIssue){
       console.error(`Cannot find issue with _id=${_id}`);
     }
-  
+
     await updatedIssue.save();
   } catch(err) {
     console.err(`Problem with updating record for issue with _id=${_id}`);
   }
 }
 
-module.exports = { createNewIssue, updateIssue }
+const deleteIssue = async({ _id }) => {
+  try {
+    let deletedIssue = await Issue.findByIdAndRemove(_id);
+    if(!deletedIssue) {
+      console.error(`Cannot find issue with _id=${_id}`);
+    } 
+  } catch(err) {
+    console.err(`Problem with deleting record for issue with _id=${_id}`);
+  }
+}
+
+module.exports = { createNewIssue, deleteIssue, updateIssue }
