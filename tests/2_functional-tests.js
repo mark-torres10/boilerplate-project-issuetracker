@@ -70,7 +70,7 @@ suite('Functional Tests', function() {
         .end((err, res) => {
           assert.equal(res.status, 200); // TODO: should this return 200? Or a 40x?
           assert.property(res.body, "error");
-          assert.equal(res.body.error, "required field(s) missing.");
+          assert.equal(res.body.error, "required field(s) missing");
           done();
         })
     });

@@ -2,11 +2,16 @@
 const mongoose = require("mongoose");
 
 const projectSchema = new mongoose.Schema({
-  issues_list = {
+  project_name: {
+    type: String,
+    required: true
+  }
+  issues_ids = {
     type: [String],
-    required: true,
     default: []
   }
 });
 
 const Project = mongoose.model("Project", projectSchema);
+
+module.exports = { Project };
