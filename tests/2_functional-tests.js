@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
 
+  const MOCK_PROJECT_NAME = "mock-project";
   const MOCK_ISSUE_TITLE = "Test Issue";
   const MOCK_ISSUE_TEXT = "This is a test issue";
   const MOCK_CREATED_BY = "Test User";
@@ -16,6 +17,20 @@ suite('Functional Tests', function() {
   const MOCK_STATUS_TEXT = "In Progress";
   const DEFAULT_STATUS_TEXT = "";
 
+  suite("Testing project endpoint", () => {
+    test("Create a new project", (done) => {
+      chai
+        .request(server)
+        .keepOpen()
+        .post(`/api/project/${MOCK_PROJECT_NAME}`)
+        .send({})
+        .end((err, res) => {
+          assert.equal(res.status, 200);
+          assert.equal(res.body.project_name, MOCK_PROJECT_NAME);
+          done();
+        }) 
+    });
+  });
   suite("Testing POST requests", () => {
     test("Create an issue with every field: POST request to /api/issues/{project}", (done) => {
       chai

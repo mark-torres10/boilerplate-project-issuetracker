@@ -40,7 +40,7 @@ const deleteProject = async({ project_name }) => {
 const getIssuesInProject = async({ project, filters }) => {
   const issues = await Promise.all(
     project.issue_ids.map(async (issue_id) => {
-      return await Issue.findOne({ _id: issue_id, ...filter });
+      return await Issue.findOne({ _id: issue_id, ...filters });
     })
   );
   return issues;
@@ -59,4 +59,4 @@ const deleteIssueFromProject = async( { project, issue_id }) => {
   return project;
 }
 
-module.exports = { addIssueToProject, deleteIssueFromProject, getIssuesInProject, getProject };
+module.exports = { addIssueToProject, createNewProject, deleteIssueFromProject, deleteProject, getIssuesInProject, getProject, updateProject };

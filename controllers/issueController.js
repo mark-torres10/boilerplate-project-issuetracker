@@ -69,7 +69,7 @@ module.exports = (app) => {
         /* Create new issue */
         const newIssue = await createNewIssue({ issue_title, issue_text, created_by, assigned_to, status_text });
 
-        await project.addIssueToProject({ issue_id: newIssue._id });
+        await addIssueToProject({ project, issue_id: newIssue._id });
 
         res.json(newIssue);
       }
