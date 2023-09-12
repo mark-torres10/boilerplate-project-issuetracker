@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 
 const { createNewIssue, deleteIssue, getIssues, updateIssue } = require("../services/issueService.js");
-const { addIssueToProject, deleteIssueFromProject, getIssuesInProject, getProject } = require("../services/issueService.js");
+const { addIssueToProject, deleteIssueFromProject, getIssuesInProject, getProject } = require("../services/projectService.js");
 
 const app = express();
 app.use(bodyParser.json());

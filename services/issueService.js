@@ -36,6 +36,7 @@ const updateIssue = async({ _id, updates }) => {
     throw new Error("Could not update, cannot find issue.")
   }
   await updatedIssue.save();
+  return updatedIssue;
 }
 
 const getIssues = async({ filters={} }) => {

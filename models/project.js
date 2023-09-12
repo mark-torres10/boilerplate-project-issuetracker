@@ -5,8 +5,8 @@ const projectSchema = new mongoose.Schema({
   project_name: {
     type: String,
     required: true
-  }
-  issues_ids = {
+  },
+  issues_ids: {
     type: [String],
     default: []
   }
